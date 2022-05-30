@@ -1,7 +1,7 @@
 # chardet
 
 [![GitHub Language](https://img.shields.io/badge/Go-reference-blue)](https://go.dev)
-[![GitHub license](https://img.shields.io/github/license/ChenYuTong10/chardet)](https://github.com/ChenYuTong10/chardet/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/ChenYuTong10/chardet)](https://github.com/ChenYuTong10/chardet/blob/master/LICENSE)
 
 A character detector implemented by Go.
 
