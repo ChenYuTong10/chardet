@@ -3,13 +3,20 @@
 [![GitHub Language](https://img.shields.io/badge/Go-reference-blue)](https://go.dev)
 [![GitHub license](https://img.shields.io/github/license/ChenYuTong10/chardet)](https://github.com/ChenYuTong10/chardet/blob/main/LICENSE)
 
-A character prober implemented by Go.
+A character detector implemented by Go.
 
-The prober aims to detecting *ANSI, UTF8, BOM UTF8* and *BOM UTF16 BE/LE* five encodings on **windows** platform.
+The detector aims to detecting *ANSI, UTF8, BOM UTF8* and *BOM UTF16 BE/LE* five encodings on **windows** platform.
 
 ## Example
 
 ```Golang
+import (
+    "log"
+    "os"
+
+    "github.com/ChenYuTong10/chardet"
+)
+
 func Foo() {
     f, err := os.Open("example.txt")
     if err != nil {
@@ -26,10 +33,10 @@ func Foo() {
         return
     }
 
-    p := new(Prober)
-    p.Feed(buf)
+    d := new(Detector)
+    d.Feed(buf)
     
-    encoding := p.Encoding
+    encoding := d.Encoding
 
     // do anything you want
 }
@@ -37,7 +44,7 @@ func Foo() {
 
 ## How it works
 
-Let us first see the work flow of the prober.
+Let us first see the work flow of the detector.
 
 ![alt workFlow](./chardet.png)
 
