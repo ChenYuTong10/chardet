@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBOMUTF8Prober(t *testing.T) {
+func TestBOMUTF8Detector(t *testing.T) {
 
 	for i := 1; i <= 3; i++ {
 		f, err := os.Open(fmt.Sprintf(".\\raw\\BOM UTF8 %d.txt", i))
@@ -24,15 +24,15 @@ func TestBOMUTF8Prober(t *testing.T) {
 			t.Errorf("read buf error: %v", err)
 		}
 
-		p := new(Prober)
-		p.Feed(buf)
-		assert.Equal(t, p.Encoding, BOM_UTF8)
+		d := new(Detector)
+		d.Feed(buf)
+		assert.Equal(t, d.Encoding, BOM_UTF8)
 
 		defer f.Close()
 	}
 }
 
-func TestBOMUTF16BEProber(t *testing.T) {
+func TestBOMUTF16BEDetector(t *testing.T) {
 
 	for i := 1; i <= 3; i++ {
 		f, err := os.Open(fmt.Sprintf(".\\raw\\BOM UTF16 BE %d.txt", i))
@@ -47,15 +47,15 @@ func TestBOMUTF16BEProber(t *testing.T) {
 			t.Errorf("read buf error: %v", err)
 		}
 
-		p := new(Prober)
-		p.Feed(buf)
-		assert.Equal(t, p.Encoding, BOM_UTF16_BE)
+		d := new(Detector)
+		d.Feed(buf)
+		assert.Equal(t, d.Encoding, BOM_UTF16_BE)
 
 		defer f.Close()
 	}
 }
 
-func TestBOMUTF16LEProber(t *testing.T) {
+func TestBOMUTF16LEDetector(t *testing.T) {
 
 	for i := 1; i <= 3; i++ {
 		f, err := os.Open(fmt.Sprintf(".\\raw\\BOM UTF16 LE %d.txt", i))
@@ -70,15 +70,15 @@ func TestBOMUTF16LEProber(t *testing.T) {
 			t.Errorf("read buf error: %v", err)
 		}
 
-		p := new(Prober)
-		p.Feed(buf)
-		assert.Equal(t, p.Encoding, BOM_UTF16_LE)
+		d := new(Detector)
+		d.Feed(buf)
+		assert.Equal(t, d.Encoding, BOM_UTF16_LE)
 
 		defer f.Close()
 	}
 }
 
-func TestUTF8Prober(t *testing.T) {
+func TestUTF8Detector(t *testing.T) {
 
 	for i := 1; i <= 3; i++ {
 		f, err := os.Open(fmt.Sprintf(".\\raw\\UTF8 %d.txt", i))
@@ -93,15 +93,15 @@ func TestUTF8Prober(t *testing.T) {
 			t.Errorf("read buf error: %v", err)
 		}
 
-		p := new(Prober)
-		p.Feed(buf)
-		assert.Equal(t, p.Encoding, UTF8)
+		d := new(Detector)
+		d.Feed(buf)
+		assert.Equal(t, d.Encoding, UTF8)
 
 		defer f.Close()
 	}
 }
 
-func TestANSIBEProber(t *testing.T) {
+func TestANSIBEDetector(t *testing.T) {
 
 	for i := 1; i <= 3; i++ {
 		f, err := os.Open(fmt.Sprintf(".\\raw\\ANSI %d.txt", i))
@@ -116,9 +116,9 @@ func TestANSIBEProber(t *testing.T) {
 			t.Errorf("read buf error: %v", err)
 		}
 
-		p := new(Prober)
-		p.Feed(buf)
-		assert.Equal(t, p.Encoding, ANSI)
+		d := new(Detector)
+		d.Feed(buf)
+		assert.Equal(t, d.Encoding, ANSI)
 
 		defer f.Close()
 	}

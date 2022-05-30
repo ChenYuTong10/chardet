@@ -18,15 +18,15 @@ func HasPrefix(s, prefix []byte) bool {
 	return true
 }
 
-type Prober struct {
+type Detector struct {
 	Encoding string
 	State    bool
 }
 
-// Feed feeds a chunk of a byte slice bs from a document through prober.
+// Feed feeds a chunk of a byte slice bs from a document through Detector.
 // It can only distinguish encodings on windows OS, such as ANSI, UTF-8,
 // BOM UTF-8, UTF-16 BE, UTF-16 LE.
-func (p *Prober) Feed(bs []byte) {
+func (d *Detector) Feed(bs []byte) {
 
 	if len(bs) == 0 {
 		return
@@ -34,41 +34,41 @@ func (p *Prober) Feed(bs []byte) {
 
 	if HasPrefix(bs, BOM_UTF8_PREFIX) {
 		// `EF BB BF` => `UTF-8 with BOM`
-		p.Encoding = BOM_UTF8
+		d.Encoding = BOM_UTF8
 	} else if HasPrefix(bs, BOM_UTF16_BE_PREFIX) {
 		// `FE FF` => `UTF-16 BE`
-		p.Encoding = BOM_UTF16_BE
+		d.Encoding = BOM_UTF16_BE
 	} else if HasPrefix(bs, BOM_UTF16_LE_PREFIX) {
 		// `FF FE` => `UTF-16 LE`
-		p.Encoding = BOM_UTF16_LE
+		d.Encoding = BOM_UTF16_LE
 	}
 
-	if len(p.Encoding) != 0 {
-		p.State = true
+	if len(d.Encoding) != 0 {
+		d.State = true
 		return
 	}
 
-	utf8Prober := new(UTF8Prober)
-	utf8Prober.Feed(bs)
+	utf8Detector := new(UTF8Detector)
+	utf8Detector.Feed(bs)
 
-	if utf8Prober.State {
-		p.Encoding = UTF8
+	if utf8Detector.State {
+		d.Encoding = UTF8
 	} else {
 		// Obviously, a directivly conclusion to ANSI is not correct.
 		// But it is enough on windows OS.
-		p.Encoding = ANSI
+		d.Encoding = ANSI
 	}
 
-	p.State = true
+	d.State = true
 }
 
-type UTF8Prober struct {
+type UTF8Detector struct {
 	State bool
 }
 
-// Feed feeds the byte slice through the UTF8 specific prober.
-// The prober will check every bytes whether it accords with UTF8 features.
-func (u *UTF8Prober) Feed(bs []byte) {
+// Feed feeds the byte slice through the UTF8 specific Detector.
+// The Detector will check every bytes whether it accords with UTF8 features.
+func (u *UTF8Detector) Feed(bs []byte) {
 
 	wordState := false
 	oneBitCount := 0
